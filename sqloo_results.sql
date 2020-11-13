@@ -1,29 +1,44 @@
 -- 0 SELECT basics
 -- 1.
-
+SELECT population FROM world
+  WHERE name = 'Germany'
 -- 2.
-
+SELECT name, population FROM world
+  WHERE name IN ('Sweden', 'Norway', 'Denmark');
 -- 3.
-
+SELECT name, area FROM world
+  WHERE area BETWEEN 200000 AND 250000
 -- 1 SELECT name
-
+SELECT name FROM world
+  WHERE name LIKE 'Y%'
 -- 1.
-
+SELECT name FROM world
+  WHERE name LIKE '%Y'
 -- 2.
-
+SELECT name FROM world
+  WHERE name LIKE '%X%'
 -- 3.
-
+SELECT name FROM world
+  WHERE name LIKE '%land'
 -- 4.
-
+SELECT name FROM world
+  WHERE name LIKE 'C%ia%'
 -- 5.
-
+SELECT name FROM world
+  WHERE name LIKE '%oo%'
 -- 6.
-
+SELECT name FROM world
+  WHERE name LIKE '%a%%a%a%'
 -- 7.
-
+SELECT name FROM world
+ WHERE name LIKE '_t%'
+ORDER BY name
 -- 8.
-
+SELECT name FROM world
+ WHERE name LIKE '%o__o%';
 -- 9.
+SELECT name FROM world
+ WHERE name LIKE '____'
 
 -- 10.
 
@@ -36,13 +51,18 @@
 
 -- 2 SELECT from World
 -- 1.
-
+SELECT name, continent, population FROM world
 -- 2.
-
+SELECT name FROM world
+WHERE population > 200000000;
 -- 3.
-
+SELECT name, gdp/population
+FROM world
+WHERE population >= 200000000;
 -- 4.
-
+SELECT name, population/1000000
+FROM world
+WHERE continent LIKE 'South America'
 -- 5.
 
 -- 6.
