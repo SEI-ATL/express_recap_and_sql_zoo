@@ -31,11 +31,8 @@
 
 -- 12.
 
--- 13.
+-- 13, 14, and 15 have a bug, please skip them
 
--- 14.
-
--- 15.
 
 -- 2 SELECT from World
 -- 1.
@@ -108,6 +105,7 @@
 
 -- 5.
 
+-- As noted in the tutorial, questions 6 - 10 in this unit are considered bonuses, just like units 6 - 8+
 -- 6.
 
 -- 7.
