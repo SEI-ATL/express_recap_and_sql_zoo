@@ -90,7 +90,7 @@ To ignore the module files, create a .gitignore file and add `node_modules` into
 
 # SQL NOTES
 
-## Basics
+### Basics
 
 select all
 
@@ -101,23 +101,35 @@ SELECT * FROM tablename;
 Select given specific parameters
 
 ```SQL
- SELECT field FROM tablename
-    WHERE field = 'somevalue';
+    field = 'somevalue';
     ...
-    WHERE field IN ('value1', 'val2'...);
+    field IN ('value1', 'val2'...);
     ...
-    WHERE field BETWEEN ...AND/OR...;
+    field BETWEEN ...AND/OR...;
     ...
 ```
 
 order by
+
 ```SQL
-SELECT field FROM tablename
-    WHERE ...
     ORDER BY... field
 ```
 
-## Operations
+rename as
+
+```SQL
+    AS newname
+```
+
+### Conditionals
+
+```SQL
+AND
+OR
+XOR --true if one or the other, not both
+```
+
+### Operations
 
 greater/less than
 ```SQL
@@ -127,11 +139,11 @@ SELECT field FROM tablename
 
 can calculate new fields with matches
 ```SQL
-SELECT field, math() FROM tablename
+SELECT field, mathstuffhere() FROM tablename
     WHERE....
 ```
 
-## Strings
+### Strings
 
 Select w/ wildcards
 - % is a wildcard that can be any length
@@ -145,30 +157,90 @@ Select w/ wildcards
 
 
 ```SQL
-SELECT field FROM tablename
-    WHERE field LIKE '%str';
+
+     LIKE '%str';
     ...
-    WHERE field LIKE 'str%';
+     LIKE 'str%';
     ...
-    WHERE field LIKE '%str%';
+     LIKE '%str%';
     ...
-    WHERE field LIKE 'strA%strB';
+     LIKE 'strA%strB';
     ...
 ```
 
 Length of a value/string
 
 ```SQL
-SELECT * FROM tablename
-    WHERE LENGTH(field) = ;
+    LENGTH(field) = ;
 ```
 
 Concatenate strings
 
 ```SQL
-SELECT field FROM tablename
-    WHERE field2 = concat(field, ' something')
+    field2 = CONCAT(field, ' something');
 ```
 
+Escaping single quote
 
+```SQL
+    People''s --double up the quote
+```
+
+### Functions
+
+Get leftmost values
+
+```SQL
+    LEFT(field, #);
+```
+
+Round to specific # of decimal places
+
+```SQL
+    ROUND(#, number of decimal places);
+```
+
+Sum, count functions that aggregate results
+
+```SQL
+    SUM(field) --sum of returned matches
+
+    COUNT(field) --# of returned matches
+```
+
+Max, Distinct which filter after query
+
+```SQL
+    DISTINCT(field) -- gives unique matches
+
+    MAX(field) --gives max
+```
+
+Group by, having which also filter after the query is returned
+
+```SQL
+    GROUP BY field -- used with sum/count where fields are aggrgated in select output
+    HAVING -- filters displayed output (unlike WHERE which filters ths query)
+```
+
+Use a boolean to order things
+
+```SQL
+    WHERE field IN ('...') -- returns a boolean
+    -- then order by the boolean
+    ORDER BY field IN ('...')
+```
+
+Select in select
+
+```SQL
+--identify diff aliases for inner/outer select tables
+SELECT continent, name, area
+    FROM world x --name of outer
+    WHERE area >=
+        ALL
+            (SELECT area
+                FROM world y -- name of inner
+                WHERE y.continent=x.continent AND area>0);
+```
 
