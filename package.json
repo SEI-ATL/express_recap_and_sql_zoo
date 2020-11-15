@@ -1,0 +1,20 @@
+{
+  "name": "express_recap_and_sql_zoo",
+  "version": "1.0.0",
+  "description": "This week you began a README that will serve as your central notepad for everything we learn about node and express. Update it to cover the following topics:\r - setting up an express app\r - creating routes within an express app\r - sending text from the server back to the client\r - sending html to the client using a view template\r - referencing variables in your view templates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swolepenguin/express_recap_and_sql_zoo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swolepenguin/express_recap_and_sql_zoo/issues"
+  },
+  "homepage": "https://github.com/Swolepenguin/express_recap_and_sql_zoo#readme"
+}
