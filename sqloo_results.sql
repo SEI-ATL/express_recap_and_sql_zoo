@@ -185,16 +185,23 @@ SELECT title, name FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (
 SELECT title FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actor.id=actorid) WHERE name = 'Harrison Ford' AND ord != 1
 -- 11.
 SELECT yr,COUNT(title) FROM
-  movie JOIN casting ON movie.id=movieid
-        JOIN actor   ON actorid=actor.id
-WHERE name='Rock Hudson'
+  movie JOIN casting ON (movie.id=movieid)
+        JOIN actor   ON (actorid=actor.id)
+WHERE name = 'Rock Hudson'
 GROUP BY yr
 HAVING COUNT(title) > 2
-
 -- 12.
-
+SELECT title, name FROM movie
+JOIN casting ON (movie.id=movieid)
+JOIN actor ON (actor.id=actorid)
+WHERE ord = 1 AND movieid IN
+(SELECT movieid FROM casting
+JOIN actor ON (actor.id=actorid)
+WHERE name='Julie Andrews')
 -- 13.
-
+SELECT name FROM actor 
+JOIN casting ON (actor.id=actorid) 
+WHERE actorid IN (SELECT actorid FROM casting WHERE ord = 1 GROUP BY actorid HAVING COUNT(actorid) > 15) GROUP BY name
 -- 14.
 
 -- 15.
@@ -202,25 +209,27 @@ HAVING COUNT(title) > 2
 
 -- 8 Using Null
 -- 1.
-
+SELECT name FROM teacher WHERE dept IS NULL
 -- 2.
-
+SELECT teacher.name, dept.name FROM teacher INNER JOIN dept ON (teacher.dept=dept.id)
 -- 3.
-
+SELECT teacher.name, dept.name FROM teacher LEFT JOIN dept ON (teacher.dept=dept.id)
 -- 4.
-
+SELECT teacher.name, dept.name FROM teacher RIGHT JOIN dept ON (teacher.dept=dept.id)
 -- 5.
-
+SELECT name, COALESCE(mobile, '07986 444 2266') FROM teacher 
 -- 6.
-
+SELECT COALESCE(teacher.name, 'None'), COALESCE(dept.name, 'None') FROM teacher LEFT JOIN dept ON (teacher.dept=dept.id)
 -- 7.
-
+SELECT COUNT(teacher.name), COUNT(mobile) FROM teacher 
 -- 8.
-
+SELECT dept.name, COUNT(teacher.name) FROM teacher RIGHT JOIN dept ON (teacher.dept=dept.id) GROUP BY dept.name
 -- 9.
-
+SELECT teacher.name, CASE WHEN dept=1 THEN 'Sci' WHEN dept=2 THEN 'Sci' ELSE 'Art' END
+FROM teacher 
 -- 10.
-
+SELECT teacher.name, CASE WHEN dept=1 THEN 'Sci' WHEN dept=2 THEN 'Sci' WHEN dept=3 THEN 'Art' Else 'None' END
+FROM teacher
 
 
 -- 8+ Numeric Examples
