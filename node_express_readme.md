@@ -89,3 +89,85 @@ Example Below:
 https://i.imgur.com/ZYxXIZA.png
 
 You are now done congrats!
+
+# Express App
+### Setting up an express app 
+To start a project using node express you must first install it to you project by typing `npm i express` or `npm install express` in your terminal. Once you download it, it will pop up in your node_modules folder along with other nodes, or make a new directory called node_modules.
+
+Next go into you index.js folder and import it using `const express = require('express');` and `const app = express();`.
+
+### Creating routes within an express app
+Now you can use .js markup like below to send user to different routes then they alter the web address that you link below when you go to `localhost:3000` and alternating between `localhost:3000/about` and `localhost:3000/blog` as well in the web address. This is how you create routes.
+```js
+app.get('/', function (req, res) {
+  res.send('Testing');
+});
+
+app.get('/about', function (req, res) {
+  res.send('Testing');
+});
+
+app.get('/blog', function (req, res) {
+  res.send('Testing');
+});
+
+app.listen(3000);
+```
+### Sending text from the server back to the client
+But now that you care traveling to those pages you arent seeing anything change since all the pages are blank and the same. This is where we can add more info so the user can see the follwing under your routes. 
+
+```js
+app.get('/', function (req, res) {
+  res.send('Home Testing'); //CHANGE THIS TEXT
+});
+
+app.listen(3000);
+```
+Once you get to the page you should see the text 'Home Testing' on the page. This is how you can alter what the euser sees when they visit the routes.
+
+To create more routes on the page you can configure what will lead where. For instance, you can link pages. But you can also take it once step. You can also send status code by using the line of code:
+```js
+app.get('/', function (req, res) {
+  res.send('Home Testing');
+  res.status(200) //THIS LINE HERE
+});
+
+app.listen(3000);
+```
+### Sending html to the client using a view template
+Lets take it one step folder and install ejs to better link html files. Go into the terminal and install it by typing `npm install ejs`. Let's also go to the index.js file and set a new const at the top `app.set('view engine','ejs')`
+Now lets alter some of the js code to the following below. We will also go ahead and change 'index.html' to 'index.ejs' and make two new .ejs files: 'about.ejs' and 'blog.ejs'. Now we can send .html files that we altered to .ejs files to the client. (.html = .ejs)
+```js
+app.get('/', function (req, res) {
+  res.render('index');
+  res.status(200)
+});
+
+app.get('/about', function (req, res) {
+  res.render('about');
+  res.status(200)
+});
+
+app.get('/blog', function (req, res) {
+  res.render('about');
+  res.status(200)
+});
+
+app.listen(3000);
+```
+
+### Referencing variables in your view templates
+Another thing we can do is reference variables that we set in index.js files in the new .ejs files. For instance, in a blog, if you wanted someone to go to a certain day of you blog what you can do do it set parameters in the .js file. For instance, the code below will take you to a date in the blog by setting a variable in the .js file and then calling it in the .ejs file.
+```js
+app.get('/', function (req, res) {
+  res.render('blog', {date: req.params.date }); //THIS LINE
+  res.status(200)
+});
+
+app.listen(3000);
+```
+
+Now you can enter the code below in the .ejs files for the client to be linked to that blog page and date.
+```js
+<%= date %>
+```
