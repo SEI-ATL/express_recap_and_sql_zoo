@@ -222,9 +222,18 @@ FROM world
 WHERE continent = 'Europe'; 
 -- As noted in the tutorial, questions 6 - 10 in this unit are considered bonuses, just like units 6 - 8+
 -- 6.
-
+SELECT name
+FROM world
+WHERE gdp > ALL(SELECT gdp 
+            FROM world 
+            WHERE gdp > 0 AND continent = 'Europe')
 -- 7.
-
+SELECT continent, name, area
+FROM world x
+WHERE area >= ALL
+    (SELECT area FROM world y
+     WHERE y.continent=x.continent
+     AND area > 0)
 -- 8.
 
 -- 9.
@@ -235,20 +244,37 @@ WHERE continent = 'Europe';
 
 -- 5 SUM and COUNT
 -- 1.
-
+SELECT SUM(population)
+FROM world
 -- 2.
-
+SELECT DISTINCT(continent)
+FROM world
 -- 3.
-
+SELECT SUM(gdp)
+FROM world
+WHERE continent = 'Africa'
 -- 4.
-
+SELECT COUNT(name)
+FROM world
+WHERE area > 1000000
 -- 5.
-
+SELECT SUM(population)
+FROM world
+WHERE name IN ('Estonia', 'Latvia', 'Lithuania')
 -- 6.
-
+SELECT continent, COUNT(name)
+FROM world
+GROUP BY continent
 -- 7.
-
+SELECT continent, COUNT(name)
+FROM world
+WHERE population >= 10000000
+GROUP BY continent
 -- 8.
+SELECT continent
+FROM world
+GROUP BY continent
+HAVING SUM(population) >= 100000000
 
 
 -- Note: the units below this are bonus for this weekend, and they will be required in a future assignment. If you do them now you will be ahead of the game!
