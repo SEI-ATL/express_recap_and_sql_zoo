@@ -177,7 +177,8 @@ WHERE winner = 'PETER GRÜNBERG'
 -- 12.
 SELECT yr, subject, winner
 FROM nobel
-WHERE winner = 'Eugene O\'Neill'
+WHERE winner = `'Eugene O\'Neill'` 
+-- ADDED BACKTICKS TO EugeneO Neill - IF testing remove backticks first! 
 -- 13.
 SELECT winner, yr, subject
 FROM nobel 
@@ -192,15 +193,33 @@ SELECT winner, subject
 
 -- 4 SELECT within SELECT
 -- 1.
-
+SELECT name 
+FROM world
+WHERE population >
+      (SELECT population FROM world
+       WHERE name='Russia')
 -- 2.
-
+SELECT name
+FROM world
+WHERE gdp/population > 
+          (SELECT gdp/population FROM world
+           WHERE name = 'United Kingdom') &&
+           continent = 'Europe'
 -- 3.
-
+SELECT name, continent
+FROM world
+WHERE continent IN (SELECT continent FROM world 
+                    WHERE name IN ('Argentina', 'Australia')) 
+                    ORDER BY name;
 -- 4.
-
+SELECT name, population 
+FROM world 
+WHERE population > (SELECT population FROM world WHERE name = 'Canada') &&  
+population < (SELECT population FROM world WHERE name = 'Poland');
 -- 5.
-
+SELECT name, CONCAT(ROUND(population/(SELECT population FROM world WHERE name = 'Germany')*100), '%') 
+FROM world 
+WHERE continent = 'Europe'; 
 -- As noted in the tutorial, questions 6 - 10 in this unit are considered bonuses, just like units 6 - 8+
 -- 6.
 
