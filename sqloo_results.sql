@@ -9,7 +9,48 @@ SELECT name, population FROM world
 -- 3.
 SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000
--- 1 SELECT from WORLD
+-- 1 Select names
+-- 1.
+SELECT name FROM world
+WHERE name LIKE 'Y%'
+-- 2.
+SELECT name FROM world
+WHERE name LIKE '%y'
+-- 3.
+SELECT name FROM world
+WHERE name LIKE '%x%'
+-- 4.
+SELECT name FROM world
+WHERE name LIKE '%land'
+-- 5.
+SELECT name FROM world
+WHERE name LIKE 'C%'
+and name LIKE '%ia'
+-- 6.
+SELECT name FROM world
+WHERE name LIKE '%oo%'
+-- 7.
+SELECT name FROM world
+WHERE name LIKE '%a%a%a%' 
+-- 8.
+SELECT name FROM world
+WHERE name LIKE '_t%'
+-- 9.
+SELECT name FROM world
+WHERE name LIKE '%o__o%'
+-- 10.
+SELECT name FROM world
+WHERE LENGTH(name) = 4;
+-- 11.
+SELECT name, capital FROM world
+WHERE name = capital
+
+
+
+
+
+
+-- 2 SELECT from WORLD
 -- 1.
 SELECT name, continent, population FROM world
 -- 2.
@@ -58,6 +99,7 @@ WHERE name NOT LIKE '% %'
   and name LIKE '%o%' 
   and name LIKE '%i%'
   and name LIKE '%e%'
+  
 -- 3 SELECT from Nobel
 -- 1.
 
