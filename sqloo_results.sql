@@ -401,6 +401,8 @@ SELECT institution,SUM(sample),SUM(CASE WHEN subject='(8) Computer Science' THEN
 GROUP BY institution
 
 
+
+
 --I did this before realizing it was not section 8+ ...whoops
 -- SELF JOIN
 -- 1.
