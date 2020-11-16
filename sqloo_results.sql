@@ -210,9 +210,23 @@ WHERE name <= ALL
 (SELECT name FROM world y
 WHERE y.continent = x.continent)
 -- 9.
-
+SELECT name, continent, population
+FROM world
+WHERE continent = ALL
+  (SELECT continent
+  FROM world x
+  WHERE 25000000 >= ALL
+  (SELECT population
+    FROM world y
+    WHERE x.continent = y.continent))
 -- 10.
-
+SELECT name, continent
+FROM world x
+WHERE population > ALL
+  (SELECT (population*3)
+  FROM world y
+  WHERE x.continent = y.continent
+  AND x.name <> y.name)
 
 -- 5 SUM and COUNT
 -- 1.
@@ -242,7 +256,10 @@ FROM world
 WHERE population >= 10000000
 GROUP BY continent
 -- 8.
-
+SELECT continent
+FROM world
+GROUP BY continent
+HAVING SUM(population) >= 100000000
 
 -- Note: the units below this are bonus for this weekend, but they will be required in a future assignment. If you do them now you will be ahead of the game!
 
