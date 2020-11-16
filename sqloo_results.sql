@@ -387,32 +387,89 @@ FROM game JOIN goal ON (matchid=id)
 GROUP BY stadium 
 
 -- 11.
+SELECT matchid,mdate, COUNT(teamid)
+FROM game JOIN goal ON matchid = id 
+WHERE (team1 = 'POL' OR team2 = 'POL')
+GROUP BY matchid,mdate
 
 -- 12.
+SELECT matchid,mdate, COUNT(teamid)
+FROM game JOIN goal ON matchid = id 
+WHERE (team1 = 'GER' OR team2 = 'GER') AND teamid = 'GER'
+GROUP BY matchid, mdate
 
--- 13.
+-- 13. (I DIDNT GET THIS ONE TWO MUCH, I FOUND THIS ANSWER ONLINE)
+SELECT mdate,
+  team1,
+  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1, 
+team2,
+SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
+  FROM game LEFT JOIN goal ON matchid = id
+GROUP BY mdate,matchid,team1,team2
+
+
 
 -------------- 7 MORE JOIN OPERATIONS
 
 -- 1.
+SELECT id, title
+ FROM movie
+ WHERE yr=1962
 
 -- 2.
+SELECT yr
+FROM movie
+WHERE title = 'Citizen Kane'
 
 -- 3.
+SELECT id, title, yr
+FROM movie
+WHERE title LIKE '%Star%Trek%'
+ORDER BY yr
 
 -- 4.
+SELECT id
+FROM actor 
+WHERE name = 'Glenn Close'
 
 -- 5.
+SELECT id
+FROM movie
+WHERE title = 'Casablanca'
 
 -- 6.
+SELECT name
+FROM casting JOIN actor
+WHERE movieid=11768 AND actorid=actor.id
 
 -- 7.
+SELECT name
+FROM movie, casting, actor
+WHERE title='Alien'
+AND movieid=movie.id
+AND actorid=actor.id
 
 -- 8.
+SELECT title
+FROM movie, casting, actor
+WHERE name='Harrison Ford'
+AND movieid=movie.id
+AND actorid=actor.id
 
 -- 9.
+SELECT title
+FROM movie, casting, actor
+WHERE name='Harrison Ford' AND ord!='1'
+AND movieid=movie.id
+AND actorid=actor.id
 
 -- 10.
+SELECT title, name 
+FROM movie, casting, actor
+WHERE yr='1962'
+AND movieid=movie.id
+AND actorid=actor.id
+AND ord=1
 
 -- 11.
 
