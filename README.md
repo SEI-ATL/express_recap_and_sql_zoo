@@ -1,20 +1,85 @@
-## Part 1: updating your `node`/`express` readme
-This week you began a README that will serve as your central notepad for everything we learn about node and express. Update it to cover the following topics:
-- setting up an express app
-- creating routes within an express app
-- sending text from the server back to the client
-- sending html to the client using a view template
-- referencing variables in your view templates
+# node-express
 
-When you're finished updating your node & express readme, copy-paste it into `node_express_readme.md` for submission!
+## Node and NPM basics
+- make sure you have both node and npm installed 
+    - `node -v`
+    - `npm -v`
 
-## Part 2: sqlzoo
-You will be doing an online interactive tutorial to level up your sql skills here: https://sqlzoo.net/
+- `npm init` to create a json package 
+    - this will let you pick specific details like description and author name
+- `npm init -y` will create json with all default values
 
-This tutorial is broken into units. It is not expected that you already know how to complete each unit: the units have progressive instructions, and you learn as you go. Units 0 - 5 are required as part of this weekend's deliverable, and units 6 - 8+ are bonus. If you're serious about becoming a strong developer, do the bonus units!
+To run any javascript in the command line type `node index.js`
+- index.js is the defualt file name used by npm
 
-For each question, sqlzoo will tell you when you've nailed it. Copy&paste the correct answer under the corresponding question in `sqlzoo_results.sql`.
+In order to use anything that is not in index.js you have to link that via the `require()` function 
+___
+## Example
+the `add` and `minus` functions are declared in the myModule.js file. To run them in index.js you have to include the first line of the following code
 
-## Completion criteria
-- For part 1, you have updated your node & express notes, and then pasted it into `node_express_readme.md`
-- For part 2, you have finished AT LEAST units 0 - 5 (hopefully 0 - 8+) of sqlzoo and pasted your correct queries into `sqlzoo_results.sql`.
+```js
+const { add, minus } = require("./myModule");
+
+console.log(add(5, 23));
+
+console.log(minus(6, 9));
+```
+
+In order for that to work, in `myModule.js`, you have to assign the functions you want to include to the `module.exports` variable 
+
+```js
+const beBasic = () => "That's so fetch!";
+
+function add(num1, num2) {
+    return num1 + num2;
+}
+
+function minus(num1, num2) {
+    return num1 - num2;
+}
+
+module.exports = {
+    beBasic, 
+    add, 
+    minus
+}
+```
+
+# Using Express.js
+First things first, after installing express assign it to a variable
+```js
+const express = require('express');
+const app = express();
+```
+
+## The get method
+The first method to get aquainted with is the `.get()` method. Instead of retreiving a value, in this case we want to use a callback function that responds to the selected path
+```js
+app.get('/', function(req, res) {
+    res.render('index', { myVar: 'ahhh'});
+});
+```
+Now when someone goes to base url '/', a `response (res)` is rendered which is the `index.ejs` file in this case
+
+## The ejs file type
+EJS is like HTML but allows for more functionality
+- For example with the use of `ice cream cone tags: <% %>` you can insert javascript into your ejs file
+    - this is helpful if you want to pass information garnered from reqs (the counterpart to res from our callback function (res, req)) into the ejs that is displayed on the page
+
+EXAMPLE: the ejs tags allowed us to pass in the myVar key from the previous .get() method
+```html
+<body>
+    <%- include('nav') %>
+    <h1>YOOOOOOOOOOOOOO I'm an html file</h1>
+    <%= myVar %>  
+</body>
+```
+One more cool thing about ejs is that it allows you to insert other ejs files inside itself. This is what is happening in the above code snippet `<%- include('nav') %>`
+
+Lastly, to set your port with express use the .listen() method
+
+```js
+app.listen(8000, () => {
+    console.log('server started');
+});
+```
