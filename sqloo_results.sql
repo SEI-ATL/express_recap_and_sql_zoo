@@ -333,6 +333,7 @@ HAVING SUM(population) >=100000000
 ------------------------------ Note: the units below this are bonus for this weekend,
 ------------------------------ and they will be required in a future assignment.
 ------------------------------ If you do them now you will be ahead of the game!
+------------------------------ I did some not, all i kept getting stuck
 
 -------------- 6 JOIN
 
@@ -484,16 +485,39 @@ AND ord=1
 -------------- 8 USING NULL
 
 -- 1.
+SELECT name
+FROM teacher
+WHERE dept IS NULL
+
 
 -- 2.
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
 
 -- 3.
+SELECT teacher.name, dept.name
+FROM teacher 
+LEFT JOIN dept ON (teacher.dept=dept.id)
+
 
 -- 4.
+SELECT teacher.name, dept.name
+FROM teacher 
+RIGHT JOIN dept ON (teacher.dept=dept.id)
+
 
 -- 5.
+SELECT name, COALESCE(mobile,'07986 444 2266')
+FROM teacher
+
 
 -- 6.
+SELECT teacher.name, COALESCE(dept.name,'None')
+FROM teacher LEFT JOIN dept
+ON teacher.dept=dept.id
+
 
 -- 7.
 
@@ -506,12 +530,35 @@ AND ord=1
 -------------- 8+ NUMERIC EXAMPLES
 
 -- 1.
+SELECT A_STRONGLY_AGREE
+  FROM nss
+ WHERE question='Q01'
+   AND institution='Edinburgh Napier University'
+   AND subject='(8) Computer Science'
+
 
 -- 2.
+SELECT institution, subject
+  FROM nss
+ WHERE question='Q15'
+   AND score>=100
+
 
 -- 3.
+SELECT institution, score
+  FROM nss
+ WHERE question='Q15'
+   AND score<50
+   AND subject = '(8) Computer Science'
+
 
 -- 4.
+SELECT subject,SUM(response)
+  FROM nss
+ WHERE question='Q22'
+   AND subject IN ('(8) Computer Science','(H) Creative Arts and Design')
+GROUP BY subject
+
 
 -- 5.
 
