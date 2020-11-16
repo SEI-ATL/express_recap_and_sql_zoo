@@ -307,7 +307,10 @@ HAVING SUM(population) >= 100000000;
 
 -- Note: the units below this are bonus for this weekend, and they will be required in a future assignment. If you do them now you will be ahead of the game!
 -- 6 JOIN
--- 1.
+-- 1.he first example shows the goal scored by a player with the last name 'Bender'. The * says to list all the columns in the table - a shorter way of saying matchid, teamid, player, gtime Modify it to show the matchid and player name for all goals scored by Germany. To identify German players, check for: teamid = 'GER'
+SELECT matchid, player
+FROM goal
+WHERE teamid = 'GER'
 
 -- 2.
 
