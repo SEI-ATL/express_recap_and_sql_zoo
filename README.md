@@ -1,3 +1,5 @@
+# [README](https://github.com/tuhoalyhuynh/node-express/blob/main/README.md)
+
 ## Part 1: updating your `node`/`express` readme
 This week you began a README that will serve as your central notepad for everything we learn about node and express. Update it to cover the following topics:
 - setting up an express app
