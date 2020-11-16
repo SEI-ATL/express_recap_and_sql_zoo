@@ -44,3 +44,28 @@ app.get('/', (req, res) => {
 
 app.listen(8000);
 ```
+more examples of how our index.js files would look with the routes
+
+```js
+const express = require('express');
+const app = express();
+
+app.set('view engine', 'ejs')
+
+app.get('/', function(req, res) {
+    res.render('index', {myVar: 'woohoo'})
+});
+
+app.get('/about', function(req, res){
+    res.render('about')
+});
+
+app.get('/blog/:date', (req, res) => {
+    console.log(req)
+    res.render('blog', { date: req.params.date })
+});
+
+app.listen(8000, () => {
+    console.log('server started');
+});
+```
