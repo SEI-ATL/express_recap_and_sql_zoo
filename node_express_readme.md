@@ -5,6 +5,8 @@ Node provides a way of using Javascript as a back-end language, and it allows fo
 
 ### Importing packages is like importing a set of preexisting tools specifically designed to perform certain tasks.
 
+#### setting up an express app:
+
 ```
 npm init
 ```
@@ -75,16 +77,45 @@ is included in our ```index.js``` file.
 When we add the ```node_modules``` folder to ```.gitignore```, we ensure that every package we're using isn't uploaded in our original repo. As long as the package is installed and appears on the list in the ```package.json``` file, we're good to go.
 
 ### Additional topics:
-- setting up an express app
 
+## creating routes within an express app:
 
-- creating routes within an express app
+**Routing** = how an application responds to a client request to a particular endpoint: URI + an HTTP GET/POST etc. request
 
+```js
+const express = require('express'); // connection/dependencies from Express
+const app = express();
+// These are structured the same way for POST requests, but haven't covered those yet
+// There's even a special routing method, app.all(), used to load middleware functions at a path for all HTTP request methods. (express.js site)
+app.get('/', function(req, res) { // app.METHOD + a function that renders a request response
+  // create one of these for each sub-page (/about, /blog, etc.)
+    res.render('index', { myVar: 'woohoo'});
+    // this lets you put variables in the HTML. They're written as key-value pairs
+    // key-value pairs reference parameters in the JSON file  
+});
 
-- sending text from the server back to the client
+app.get('/blog', (req, res) => {
+    res.render('blog-generic');
+})
+// IMPORTANT: a way to write this as an arrow function instead:
+app.get('/blog/:day', (req, res) => { // this makes the /blog page irrelevant without a date
+    // res.sendFile(__dirname + '/views/blog.html');
+    // res.status(200);
+    const theDateTheyWant = req.params.day;
+    res.render('blog', { date: theDateTheyWant }); // remember that "day" isn't the parameter in the json file
+});
 
+// a visual indication in the terminal that nodemon has started the server! Helpful to have
 
-- sending html to the client using a view template
+app.listen(8000, () => {
+    console.log('server started!');
+});
 
+```
+**Still to come...**
 
-- referencing variables in your view templates
+- sending text from the server back to the client:
+
+- sending html to the client using a view template:
+
+- referencing variables in your view templates:
