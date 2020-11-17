@@ -178,16 +178,14 @@ ORDER BY subject IN ('Physics','Chemistry'), subject,winner
 -- 4 SELECT within SELECT
 -- 1.
 SELECT name FROM world
-  WHERE population >
-     (SELECT population FROM world
-      WHERE name='Russia')
+WHERE population > (SELECT population FROM world
+WHERE name='Russia')
 -- 2.
 SELECT name 
 FROM world
 WHERE continent = 'Europe' 
-AND gdp/population > (SELECT
-     gdp/population FROM world
-      WHERE name = 'United Kingdom')
+AND gdp/population > (SELECT gdp/population FROM world
+WHERE name = 'United Kingdom')
 -- 3.
 SELECT name, continent FROM world
 WHERE continent IN (SELECT continent FROM world
@@ -200,39 +198,35 @@ WHERE population > 'Canada'
 AND population < 'Poland'
 -- 5.
 SELECT name, CONCAT(ROUND(population/(SELECT population FROM world
-                          WHERE name = 'Germany')*100,0),'%')
-             FROM world WHERE continent = 'Europe'
+WHERE name = 'Germany')*100,0),'%')
+FROM world WHERE continent = 'Europe'
 -- As noted in the tutorial, questions 6 - 10 in this unit are considered bonuses, just like units 6 - 8+
 -- 6.
 SELECT name 
 FROM world
 WHERE gdp > ALL(SELECT gdp FROM world
-                   WHERE gdp > 0 AND continent = 'Europe')
+WHERE gdp > 0 AND continent = 'Europe')
 -- 7.
 SELECT continent, name, area FROM world x
-  WHERE area >= ALL
-    (SELECT area FROM world y
-        WHERE y.continent=x.continent
-          AND area > 0)
+WHERE area >= ALL (SELECT area FROM world y
+WHERE y.continent=x.continent
+AND area > 0)
 -- 8.
 SELECT continent, name FROM world x
-  WHERE name <= ALL
-    (SELECT name FROM world y
-        WHERE y.continent=x.continent)
+WHERE name <= ALL(SELECT name FROM world y
+WHERE y.continent=x.continent)
 -- 9.
 SELECT name, continent, population FROM world x
   WHERE 25000000 >= ALL(SELECT population
-	                FROM world y
-		        WHERE x.continent = y.continent
-                        AND y.population > 0);
+FROM world y
+WHERE x.continent = y.continent
+AND y.population > 0);
 -- 10.
 SELECT name, continent FROM world x
-  WHERE population >= ALL(SELECT population*3
-                         FROM world y
-                         WHERE x.continent = y.continent
-                         and y.name != x.name)
-
-
+WHERE population >= ALL(SELECT population*3
+FROM world y
+WHERE x.continent = y.continent
+and y.name != x.name)
 -- 5 SUM and COUNT
 -- 1.
 SELECT SUM(population)
@@ -389,53 +383,147 @@ JOIN movie ON (movie.id = movieid)
 JOIN actor ON (actor.id = actorid)
 WHERE yr = 1962 and ord = 1
 -- 11.
-
+SELECT title, name 
+FROM casting
+JOIN movie ON (movie.id = movieid)
+JOIN actor ON (actor.id = actorid)
+WHERE yr = 1962 and ord = 1
 -- 12.
-
+SELECT yr,COUNT(title) 
+FROM movie JOIN casting ON movie.id=movieid
+JOIN actor   ON actorid=actor.id
+WHERE name='John Travolta'
+GROUP BY yr
+HAVING COUNT(title)=(SELECT MAX(c) FROM
+(SELECT yr,COUNT(title) AS c 
+FROM movie JOIN casting ON movie.id=movieid
+JOIN actor   ON actorid=actor.id
+WHERE name='John Travolta'
+GROUP BY yr) AS t)
 -- 13.
-
+SELECT title, name 
+FROM casting
+JOIN movie ON movie.id = movieid
+JOIN actor ON actor.id = actorid
+WHERE ord = 1
+AND movie.id IN
+(SELECT movie.id FROM movie
+JOIN casting ON movie.id = movieid
+JOIN actor ON actor.id = actorid
+WHERE actor.name = 'Julie Andrews')
 -- 14.
-
+SELECT title, COUNT(actorid) 
+FROM casting
+JOIN movie ON movieid = movie.id
+WHERE yr = 1978
+GROUP BY movieid, title
+ORDER BY COUNT(actorid) DESC
 -- 15.
-
+SELECT DISTINCT name FROM casting
+JOIN actor ON actorid = actor.id
+WHERE name != 'Art Garfunkel'
+AND movieid IN (
+SELECT movieid
+FROM movie
+JOIN casting ON movieid = movie.id
+JOIN actor ON actorid = actor.id
+WHERE actor.name = 'Art Garfunkel'
+)
 
 -- 8 Using Null
 -- 1.
-
+SELECT name
+FROM teacher
+WHERE dept IS NULL
 -- 2.
-
+SELECT teacher.name, dept.name
+FROM teacher INNER JOIN dept
+ON (teacher.dept=dept.id)
 -- 3.
-
+SELECT teacher.name, dept.name
+FROM teacher LEFT JOIN dept
+ON (teacher.dept=dept.id)
 -- 4.
-
+SELECT teacher.name, dept.name
+FROM teacher RIGHT JOIN dept
+ON (teacher.dept=dept.id)
 -- 5.
-
+SELECT name, COALESCE(mobile, '07986 444 2266')
+FROM teacher
 -- 6.
-
+SELECT teacher.name, COALESCE(dept.name, 'None')
+FROM teacher LEFT JOIN dept ON (teacher.dept = dept.id)
 -- 7.
-
+SELECT COUNT(name), COUNT(mobile)
+FROM teacher
 -- 8.
-
+SELECT dept.name, COUNT(teacher.name)
+FROM teacher RIGHT JOIN dept ON (teacher.dept=dept.id)
+GROUP BY dept.name
 -- 9.
-
+SELECT teacher.name,
+CASE WHEN dept.id = 1 THEN 'Sci'
+WHEN dept.id = 2 THEN 'Sci'
+ELSE 'Art' END
+FROM teacher LEFT JOIN dept ON (teacher.dept = dept.id)
 -- 10.
+SELECT teacher.name,
+CASE WHEN dept.id = 1 THEN 'Sci'
+WHEN dept.id = 2 THEN 'Sci'
+WHEN dept.id = 3 THEN 'Art'
+ELSE 'None' END
+FROM teacher LEFT JOIN dept ON (teacher.dept = dept.id)
 
 
 
 -- 8+ Numeric Examples
 -- 1.
-
+SELECT A_STRONGLY_AGREE
+FROM nss
+WHERE question='Q01'
+AND institution='Edinburgh Napier University'
+AND subject='(8) Computer Science'
 -- 2.
-
+SELECT institution, subject
+FROM nss
+WHERE question='Q15'
+AND score >= 100;
 -- 3.
-
+SELECT institution,score
+FROM nss
+WHERE question='Q15'
+AND subject='(8) Computer Science'
+AND score < 50;
 -- 4.
-
+SELECT subject, SUM(response) 
+FROM nss 
+WHERE question = 'Q22'
+GROUP BY subject HAVING subject 
+IN('(8) Computer Science', '(H) Creative Arts and Design');
 -- 5.
+SELECT subject, SUM((response*A_STRONGLY_AGREE)/100)
+FROM nss
+WHERE question = 'Q22'
+GROUP BY subject HAVING subject 
+IN('(8) Computer Science', '(H) Creative Arts and Design');
 
 -- 6.
-
+SELECT subject, ROUND(SUM(A_STRONGLY_AGREE * response) / SUM(response))
+FROM nss
+WHERE question='Q22'
+GROUP BY subject
+HAVING subject IN('(8) Computer Science',
+'(H) Creative Arts and Design');
 -- 7.
-
+SELECT institution,ROUND(SUM(score * response)/SUM(response))
+FROM nss
+WHERE question='Q22'
+AND (institution LIKE '%Manchester%')
+GROUP BY institution
 -- 8.
-
+SELECT institution, SUM(sample) AS sample_n, 
+SUM(CASE WHEN subject = '(8) Computer Science' THEN sample
+ELSE 0 END) AS computing_n
+FROM nss
+WHERE question='Q01' AND (institution LIKE '%Manchester%')
+GROUP BY institution;
